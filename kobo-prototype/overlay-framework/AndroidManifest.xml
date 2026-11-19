@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Kobodroid framework overlay: a status bar tall enough to clear the Kobo's top bezel. -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="kobodroid.overlay.framework">
+    <overlay android:targetPackage="android" android:priority="1"/>
+    <application android:hasCode="false"/>
+</manifest>

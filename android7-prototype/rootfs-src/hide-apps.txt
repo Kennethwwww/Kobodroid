@@ -1,0 +1,62 @@
+# System app directories hidden from PackageManager by an empty read-only bind mount (system.img untouched).
+# Offline, offscreen e-reader: no telephony, messaging, mail, camera, location, demo or setup apps.
+# Kept: Settings, SettingsProvider, Shell, PackageInstaller,
+# DefaultContainerService (APK install), DownloadProvider, MediaProvider, ExternalStorageProvider,
+# DocumentsUI, ExtServices/ExtShared, KeyChain, CertInstaller, InputDevices, Fallback, webview,
+# StatementService (PackageManagerService requires an intent filter verifier, or system_server aborts).
+# SystemUI hidden too (offscreen: no status bar, notifications, keyguard; saves ~73 MiB steady). Its
+# ImageWallpaper is replaced by kindleroid-wallpaper (/vendor/app), so boot does not wait 30 s for a wallpaper.
+app/BasicDreams
+app/BookmarkProvider
+app/Browser2
+app/Calendar
+app/Camera2
+app/CaptivePortalLogin
+app/CtsShimPrebuilt
+app/CustomLocale
+app/DeskClock
+app/Development
+app/DownloadProviderUi
+app/EasterEgg
+app/Email
+app/EmulatorSmokeTests
+app/ExactCalculator
+app/Gallery2
+app/HTMLViewer
+app/LatinIME
+app/LegacyCamera
+app/LiveWallpapersPicker
+app/Music
+app/NetSpeed
+app/OpenWnn
+app/PacProcessor
+app/PicoTts
+app/PrintRecommendationService
+app/PrintSpooler
+app/Protips
+app/QuickSearchBox
+app/UserDictionaryProvider
+app/WallpaperBackup
+app/messaging
+priv-app/BackupRestoreConfirmation
+priv-app/BlockedNumberProvider
+priv-app/CalendarProvider
+priv-app/Contacts
+priv-app/ContactsProvider
+priv-app/CtsShimPrivPrebuilt
+priv-app/Dialer
+priv-app/EmergencyInfo
+priv-app/FusedLocation
+priv-app/ManagedProvisioning
+priv-app/MmsService
+priv-app/MtpDocumentsProvider
+priv-app/ProxyHandler
+priv-app/SdkSetup
+priv-app/SharedStorageBackup
+priv-app/SystemUI
+priv-app/TeleService
+priv-app/Telecom
+priv-app/TelephonyProvider
+priv-app/VpnDialogs
+# Replaced by the Kindleroid home screen (/vendor/app/KindleroidLauncher).
+priv-app/Launcher3

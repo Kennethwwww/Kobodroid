@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- No wallpaper service: its default component lives in the absent SystemUI, and the window manager would wait
+         30 s for a wallpaper window before enabling the screen. E-ink pages draw their own white backgrounds. -->
+    <bool name="config_enableWallpaperService">false</bool>
+</resources>

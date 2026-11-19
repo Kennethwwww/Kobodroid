@@ -1,0 +1,31 @@
+# Low-memory device for the system's own choices (ro.config.low_ram), but app heaps sized for what Android really
+# gets now (memory budget ~580 MiB with the Kindle UI stopped). The old AOSP 512MB profile (heapmaxfree=2m) left a
+# large-heap app 2 MB of slack: WeRead garbage-collected every 0.3-0.6 s at "2% free, 73MB/75MB" while loading
+# covers (2.0.2 hardware report), stalling taps and evicting its cover cache. The slack is what matters; the
+# ceilings stay moderate (2.1.0 tried 96m/192m: a large-heap app could then grow until Android's whole memory budget
+# ran out, and the out-of-memory killer took the app and the touch injector).
+ro.config.low_ram=true
+dalvik.vm.heapstartsize=8m
+dalvik.vm.heapgrowthlimit=64m
+dalvik.vm.heapsize=128m
+dalvik.vm.heaptargetutilization=0.75
+dalvik.vm.heapminfree=1m
+dalvik.vm.heapmaxfree=6m
+# The image default dex2oat-Xmx=512m makes ART reserve a 512MB heap up front, which fails on a ~470MB host
+# ("Failed anonymous mmap ... Out of memory"), so every dexopt fails. Same 64MiB as the Android 10 route.
+dalvik.vm.dex2oat-Xms=64m
+dalvik.vm.dex2oat-Xmx=64m
+# Dynamic DexClassLoader work overlaps the foreground app and its helper processes. Verify its classes and
+# compile JNI stubs, keeping JIT enabled, instead of optimizing new dex on two cores during a book launch.
+# Explicit PackageManager speed-profile compilation still runs before the desktop, with unchanged inputs skipped.
+# ART appends its OatFileManager target after compiler options; setting only dex2oat-filter is overridden by
+# the default final --compiler-filter=speed. Set the manager's target too, without disabling JIT/verification.
+dalvik.vm.extra-opts=-XOatFileManagerCompilerFilter:interpret-only
+dalvik.vm.dex2oat-filter=interpret-only
+dalvik.vm.dex2oat-threads=1
+# Large apps (WeRead: 67 MB of dex) need more than dex2oat's built-in 570 s watchdog to verify once at install on
+# this CPU; when it fires, Android falls back to no verification and the app then verifies every class on its main
+# thread at run time (VM: stuck on the splash screen, ANR). Install takes longer once instead.
+# The compiler's default non-moving collector fragments on WeRead's large class arrays even with free heap.
+# Compact only the compiler VM; app/zygote GC and all heap/budget ceilings stay unchanged.
+dalvik.vm.dex2oat-flags=--no-watch-dog --runtime-arg -Xgc:SS

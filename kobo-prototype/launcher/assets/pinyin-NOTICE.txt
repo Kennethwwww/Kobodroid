@@ -1,0 +1,12 @@
+Kobo Pinyin contains data from Rime pinyin-simp, derived from Android Pinyin IME.
+Upstream: https://github.com/rime/rime-pinyin-simp
+Dictionary revision: 0c6861ef7420ee780270ca6d993d18d4101049d0
+License: Apache License, Version 2.0 (see pinyin-LICENSE.txt).
+Kobo changes: combine syllables for exact lookup, rank new phrases by upstream weight,
+and merge the result with the existing KOReader-derived candidates.
+
+The base table was derived from the KOReader v2025.10 copy of
+frontend/ui/data/keyboardlayouts/zh_pinyin_data.lua. That data file credits
+Rime pinyin-simp and identifies its license as Apache-2.0.
+Base table SHA-256: 231d810693602a12a1309097d3c68820c71c46f546a6cc12cfb67b057b2a2443
+KOReader source: https://github.com/koreader/koreader/blob/v2025.10/frontend/ui/data/keyboardlayouts/zh_pinyin_data.lua

@@ -1,0 +1,22 @@
+# Kindleroid Android 7.0 bring-up. system and data are mounted by the host launcher before init runs.
+# mount_all normally imports /system/etc/init after mounting /system; we import seclabel-patched copies.
+import /kdinit
+
+on early-init
+    # No /dev/ashmem on the Kindle kernel: libkdashmem provides the libcutils ashmem API on memfd.
+    # libkdnonwakealarm maps ALARM clocks to plain timerfds: AlarmManager gets a working driver (its
+    # handler fallback crashes on listener alarms) and Android can never wake the physical Kindle.
+    export LD_PRELOAD /kdlib/libkdashmem.so:/kdlib/libkdnonwakealarm.so
+
+on fs
+    # Equivalent of mount_all on an unencrypted device: lets "on nonencrypted" start class main (zygote).
+    setprop ro.crypto.state unencrypted
+    trigger nonencrypted
+
+
+# Replaces /sbin/healthd (static, 32-bit binder ABI). Not critical: a crash must not trigger init's reboot path.
+service kdhealthd /kdbin/kdhealthd
+    class core
+    user system
+    group system
+    seclabel kernel

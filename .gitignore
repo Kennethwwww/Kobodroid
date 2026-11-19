@@ -1,0 +1,12 @@
+.DS_Store
+._*
+__pycache__/
+build/
+*.img
+*.img.gz
+*.apk
+*.jar
+*.so
+*.zip
+*.pk8
+*.jks

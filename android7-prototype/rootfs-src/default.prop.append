@@ -1,0 +1,24 @@
+#
+# KINDLEROID
+#
+# Memory framebuffer (gralloc.kindle), RGB565. PW6 panel is 1272x1696 (hwtcon_v2, measured on the device); Android
+# gets all of it (1.9.0: navigation by the display bridge's edge gestures, no band).
+ro.kindleroid.fb.width=1272
+ro.kindleroid.fb.height=1696
+ro.kindleroid.fb.bpp=16
+ro.kindleroid.fb.dpi=300
+# 15, not 30: SurfaceFlinger's vsync and every app's frame clock follow this. An e-ink panel shows a few updates a
+# second at most, so frames beyond that only cost CPU (2.0.1 hardware: apps felt slow).
+ro.kindleroid.fb.fps=15
+# The host bridge already renders the approved startup artwork. Suppress Android's hidden animation before
+# graphics allocation, rather than letting it compete with app optimization until the post-boot prepare script.
+debug.sf.nobootanimation=1
+ro.sf.lcd_density=300
+# No GPU. In Android 7 this pair is the only supported software-rendering switch: the EGL loader then uses
+# libGLES_android (GLES1, enough for SurfaceFlinger) and ThreadedRenderer reports hardware acceleration as
+# unavailable, so apps draw with Skia in software instead of aborting in hwui. Also skips Bluetooth.
+ro.kernel.qemu=1
+qemu.gles=0
+# USB debugging (documents/Kindleroid-ADB/adbkey.pub, off otherwise): only that key is accepted. Android 7's adbd
+# requires no key at all unless this is set, and there is no on-screen prompt to authorise one.
+ro.adb.secure=1

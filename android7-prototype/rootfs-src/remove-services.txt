@@ -1,0 +1,15 @@
+# Init services removed from the Android 7 root (service blocks deleted, see tools/remove-services.py).
+# Never on this host: ueventd would populate /dev from host sysfs; /sbin/healthd is a static 32-bit-binder
+# binary (replaced by kdhealthd); adbd needs a USB gadget and init.usb.configfs.rc starts it explicitly.
+ueventd
+healthd
+adbd
+# No use offline/offscreen on the Kindle (were "disabled" before 1.0.1).
+ril-daemon
+cameraserver
+perfprofd
+drm
+mediadrm
+mdnsd
+mtpd
+racoon
